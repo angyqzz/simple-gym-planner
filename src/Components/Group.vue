@@ -1,8 +1,12 @@
 <template>
   <div class="groups">
-    <label>Soojendus</label>
+    <label>{{title}}</label>
     <div class="group-body">
-      <div class="exercise-item">
+      <div class="exercise-item" v-for="ex in exercises" :key="ex.id">
+        <input type="checkbox" />
+        <div>Rattas 5 minutit</div>
+      </div>
+      <!-- <div class="exercise-item">
         <input type="checkbox" />
         <div>Rattas 5 minutit</div>
       </div>
@@ -13,7 +17,7 @@
       <div class="exercise-item">
         <input type="checkbox" />
         <div>Jalapdfgfdfgfdgdfgress 4 x 15, Goal: 25kg</div>
-      </div>
+      </div>-->
     </div>
     <div class="group-footer">
       <div>Total 0 min</div>
@@ -26,7 +30,7 @@
 <script>
 const Group = {
   name: "Group",
-  props: [],
+  props: ["title", "exercises"],
   components: {},
   methods: {},
   computed: {},

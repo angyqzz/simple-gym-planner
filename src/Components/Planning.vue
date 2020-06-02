@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-page-header @back="goBack" content="Planning"></el-page-header>
-    <el-menu
+    <!-- <el-menu
       background-color="#222"
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -10,16 +10,22 @@
       active-text-color="#ffd04b"
       @select="handleSelect"
     >
-      <el-menu-item index="1">Today</el-menu-item>
-      <el-menu-item index="2">Tomorrow</el-menu-item>
+      <el-menu-item index="today">Today</el-menu-item>
+      <el-menu-item index="tomorrow">Tomorrow</el-menu-item>
     </el-menu>
+    {{activeIndex}}-->
+    <group
+      @add-new-item="addNewItem"
+      :title="config.warmup.title"
+      :exercises="config.warmup.exercises"
+    />
 
-    <group @add-new-item="addNewItem" />
+    <group v-for="(item, index) in config.train" :key="index" :title="item.title" />
     <div class="flex">
       <div class="spacer" />
-      <el-button type="danger">Lisa grupp</el-button>
+      <el-button type="danger" @click="addNewGroup">Add group</el-button>
     </div>
-    <group />
+    <group :title="config.stretching.title" :exercises="config.stretching.exercises" />
 
     <el-dialog title="Shipping address" :visible.sync="dialogFormVisible" :fullscreen="true">
       <el-select v-model="value" placeholder="Select">
@@ -51,6 +57,11 @@ const WelcomeApp = {
     addNewItem() {
       this.dialogFormVisible = true;
     },
+    addNewGroup() {
+      this.config.train.push({
+        title: "Legs"
+      });
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -63,7 +74,7 @@ const WelcomeApp = {
   computed: {},
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: "today",
       dialogFormVisible: false,
       options: [
         {
@@ -88,20 +99,22 @@ const WelcomeApp = {
         }
       ],
       value: "",
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      formLabelWidth: "120px",
       config: {
-        today: {},
-        tomorrow: {}
+        warmup: {
+          title: "Warm up",
+          exercises: [
+            {
+              id: 1,
+              label: "Rattas",
+              type: "timing",
+              duration: "00:05:00"
+            }
+          ]
+        },
+        train: [],
+        stretching: {
+          title: "Stretching"
+        }
       }
     };
   }
